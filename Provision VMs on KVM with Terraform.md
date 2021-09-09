@@ -345,7 +345,3 @@ rtt min/avg/max/mdev = 0.517/0.517/0.517/0.000 ms
 terraform destroy
 ```
 
-```
-
-```
-
