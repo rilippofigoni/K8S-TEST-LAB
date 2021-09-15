@@ -1,4 +1,4 @@
-## Step 1: Installazione Terraform su CentOS-7
+## Step 1: Installazione Terraform su CentOS
 
 #### Aggiungi il repo :
 
