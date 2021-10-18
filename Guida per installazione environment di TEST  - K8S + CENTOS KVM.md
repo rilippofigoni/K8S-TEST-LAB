@@ -16,5 +16,5 @@
 
 * #### FASE 2 - Attività sistemistica sulle VM - Propedeutica all’installazione di K8S
 
-  > seguire instruzione nel file locale : **DRAFT_ORIONE-{FRANCO}_INSTALL_k8s_001.md**
+  > seguire instruzione nel file locale : **Attività sistemistica sulle VM - Propedeutica all’installazione di K8S.md**
 
