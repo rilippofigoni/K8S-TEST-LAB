@@ -1,4 +1,4 @@
-### FASE 2 - Attività sistemistica sulle VM - Propedeutica all’installazione di K8S
+### FASE 2 - Attività sistemistica sulle 3 VM - Propedeutica all’installazione di K8S
 
 #### CONNESSIONE SSH AL SERVER KVM e poi connessione al nodo MASTER : k8smaster.local 
 
