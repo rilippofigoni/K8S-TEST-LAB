@@ -22,7 +22,7 @@ This node has joined the cluster:
 Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
 ```
 
-* Sul Node Master - CONTROLO DEI NODI AGGIUNTI
+* Sul Node Master - CONTROLLO DEI NODI AGGIUNTI
 
 ```bash
 [pippo@k8smaster ~]$ kubectl get nodes
