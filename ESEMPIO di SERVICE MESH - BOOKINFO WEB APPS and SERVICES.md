@@ -1,124 +1,12 @@
-## ISTIO ON k8s :
-
-#### INSTALLAZIONE IMMAGINE DAI REPO UFFICIALI (occhio alla ver.)
-
-```bash
-[centos@k8smaster ~]$ curl -L https://istio.io/downloadIstio | sh -
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100   102  100   102    0     0    117      0 --:--:-- --:--:-- --:--:--   117
-100  4579  100  4579    0     0   3585      0  0:00:01  0:00:01 --:--:--     0
-
-Downloading istio-1.8.2 from https://github.com/istio/istio/releases/download/1.8.2/istio-1.8.2-linux-amd64.tar.gz ...
-
-Istio 1.8.2 Download Complete!
-
-Istio has been successfully downloaded into the istio-1.8.2 folder on your system.
-
-Next Steps:
-See https://istio.io/latest/docs/setup/install/ to add Istio to your Kubernetes cluster.
-
-To configure the istioctl client tool for your workstation,
-add the /home/centos/istio-1.8.2/bin directory to your environment path variable with:
-         export PATH="$PATH:/home/centos/istio-1.8.2/bin"
-
-Begin the Istio pre-installation check by running:
-         istioctl x precheck
-
-Need more information? Visit https://istio.io/latest/docs/setup/install/
-```
-
-```bash
-[centos@k8smaster ~]$  export PATH="$PATH:/home/centos/istio-1.8.2/bin"
-[centos@k8smaster ~]$ cd istio-1.8.2/
-```
-
-[centos@k8smaster istio-1.8.2]$ ls -ltra
-total 24
-drwxr-x---   3 centos centos    83 Jan 13 02:06 tools
-drwxr-xr-x  19 centos centos   307 Jan 13 02:06 samples
--rw-r--r--   1 centos centos  5866 Jan 13 02:06 README.md
--rw-r-----   1 centos centos   853 Jan 13 02:06 manifest.yaml
-drwxr-xr-x   5 centos centos    52 Jan 13 02:06 manifests
--rw-r--r--   1 centos centos 11348 Jan 13 02:06 LICENSE
-drwxr-x---   2 centos centos    22 Jan 13 02:06 bin
-drwxr-x---   6 centos centos   115 Jan 13 02:06 .
-drwx------.  9 centos centos   268 Jan 27 15:02 ..
-
-
-
-```bash
-[centos@k8smaster istio-1.8.2]$ istioctl x precheck
-
-Checking the cluster to make sure it is ready for Istio installation...
-
-#1. Kubernetes-api
------------------------
-Can initialize the Kubernetes client.
-Can query the Kubernetes API Server.
-
-#2. Kubernetes-version
------------------------
-Istio is compatible with Kubernetes: v1.20.2.
-
-#3. Istio-existence
------------------------
-Istio will be installed in the istio-system namespace.
-
-#4. Kubernetes-setup
------------------------
-Can create necessary Kubernetes configurations: Namespace,ClusterRole,ClusterRoleBinding,CustomResourceDefinition,Role,ServiceAccount,Service,Deployments,ConfigMap.
-
-#5. SideCar-Injector
------------------------
-This Kubernetes cluster supports automatic sidecar injection. To enable automatic sidecar injection see https://istio.io/v1.8/docs/setup/additional-setup/sidecar-injection/#deploying-an-app
-
------------------------
-Install Pre-Check passed! The cluster is ready for Istio installation.
-```
-#### DOPO il CONTROLLO OK -> INSTALL
-
-```bash
-[centos@k8smaster istio-1.8.2]$ istioctl install --set profile=demo -y
-✔ Istio core installed
-✔ Istiod installed
-✔ Ingress gateways installed
-✔ Egress gateways installed
-✔ Installation complete
-```
-#### LABELING del NAMESPACE e ISTIO-INJECTION = ENABLED (per avere in automatico il sidcarproxy su ogni pod)
-
-```bash
-[centos@k8smaster istio-1.8.2]$ kubectl label namespace default istio-injection=enabled
-namespace/default labeled
-[centos@k8smaster istio-1.8.2]$
-
-NAMESPACE      NAME                                      READY   STATUS    RESTARTS   AGE
-istio-system   istio-egressgateway-64d976b9b5-fwbtv      1/1     Running   0          4m48s
-istio-system   istio-ingressgateway-68c86b9fc8-2s5xd     1/1     Running   0          4m48s
-istio-system   istiod-5c986fb85b-fj2xv                   1/1     Running   0          5m20s
-kube-system    coredns-74ff55c5b-7pjvq                   1/1     Running   1          19h
-kube-system    coredns-74ff55c5b-lcq9j                   1/1     Running   1          19h
-kube-system    etcd-k8smaster.local                      1/1     Running   1          19h
-kube-system    kube-apiserver-k8smaster.local            1/1     Running   1          19h
-kube-system    kube-controller-manager-k8smaster.local   1/1     Running   1          19h
-kube-system    kube-flannel-ds-4ctvz                     1/1     Running   3          19h
-kube-system    kube-flannel-ds-ktt85                     1/1     Running   3          19h
-kube-system    kube-flannel-ds-wbdmn                     1/1     Running   1          19h
-kube-system    kube-proxy-2clbg                          1/1     Running   3          19h
-kube-system    kube-proxy-jrxhq                          1/1     Running   3          19h
-kube-system    kube-proxy-t8dmw                          1/1     Running   1          19h
-kube-system    kube-scheduler-k8smaster.local            1/1     Running   1          19h
-```
-
-
 
 ### ESEMPIO di SERVICE MESH (BOOKINFO WEB APPS and SERVICES)
-#### : https://github.com/istio/istio/blob/master/samples/bookinfo/platform/kube/bookinfo.yaml
+
+
+  > https://github.com/istio/istio/blob/master/samples/bookinfo/platform/kube/bookinfo.yaml
 
 
 ```bash
-[centos@k8smaster kube]$ kubectl apply -f /home/centos/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo.yaml
+[pippo@k8smaster kube]$ kubectl apply -f /home/pippo/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo.yaml
 service/details created
 serviceaccount/bookinfo-details created
 deployment.apps/details-v1 created
@@ -137,14 +25,14 @@ deployment.apps/productpage-v1 created
 #### CONTROLLO DEI SERVIZI E RELATIVI PODS CREATI :
 
 ```bash
-[centos@k8smaster kube]$ kubectl get services
+[pippo@k8smaster kube]$ kubectl get services
 NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 details       ClusterIP   10.104.190.30   <none>        9080/TCP   4m15s
 kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP    20h
 productpage   ClusterIP   10.102.78.140   <none>        9080/TCP   4m12s
 ratings       ClusterIP   10.108.1.161    <none>        9080/TCP   4m14s
 reviews       ClusterIP   10.97.148.126   <none>        9080/TCP   4m14s
-[centos@k8smaster kube]$ kubectl get pods -A
+[pippo@k8smaster kube]$ kubectl get pods -A
 NAMESPACE      NAME                                      READY   STATUS    RESTARTS   AGE
 default        details-v1-79c697d759-rgq2l               2/2     Running   0          4m42s
 default        productpage-v1-65576bb7bf-kvcnf           2/2     Running   0          4m39s
@@ -167,12 +55,12 @@ kube-system    kube-proxy-2clbg                          1/1     Running   3    
 kube-system    kube-proxy-jrxhq                          1/1     Running   3          20h
 kube-system    kube-proxy-t8dmw                          1/1     Running   1          20h
 kube-system    kube-scheduler-k8smaster.local            1/1     Running   1          20h
-[centos@k8smaster kube]$
+[pippo@k8smaster kube]$
 ```
 #### ESECUZIONE DEI VARI ESEMPI DI SERVIZIO 
 
 ```bash
-[centos@k8smaster kube]$ kubectl exec "$(kubectl get pod -l app=ratings -o
+[pippo@k8smaster kube]$ kubectl exec "$(kubectl get pod -l app=ratings -o
 jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o 
 
 "<title>.*</title>"
@@ -184,24 +72,24 @@ jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/produ
 
 #### CREAZIONE DELL'INGRESS 
 ```bash
-[centos@k8smaster kube]$ kubectl apply -f 
-/home/centos/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo-ingress.yaml
+[pippo@k8smaster kube]$ kubectl apply -f 
+/home/pippo/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo-ingress.yaml
 
 Warning: networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 ingress.networking.k8s.io/gateway created
 
 ```
 ```bash
-[centos@k8smaster kube]$ kubectl get gateway
+[pippo@k8smaster kube]$ kubectl get gateway
 No resources found in default namespace.
-[centos@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
+[pippo@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)
       AGE
 istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:31916/TCP,80:30356/TCP,443:31490/TCP,31400:31999/TCP,15443:31057/TCP   87m
 ```
 
 ```bash
-[centos@k8smaster kube]$  kubectl apply -f - <<EOF
+[pippo@k8smaster kube]$  kubectl apply -f - <<EOF
 > apiVersion: networking.istio.io/v1alpha3
 > kind: Gateway
 > metadata:
@@ -218,7 +106,7 @@ istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:31916/
 >     - "httpbin.example.com"
 > EOF
 gateway.networking.istio.io/httpbin-gateway created
-[centos@k8smaster kube]$ kubectl apply -f - <<EOF
+[pippo@k8smaster kube]$ kubectl apply -f - <<EOF
 > apiVersion: networking.istio.io/v1alpha3
 > kind: VirtualService
 > metadata:
@@ -244,39 +132,39 @@ virtualservice.networking.istio.io/httpbin created
 ```
 
 ```bash
-[centos@k8smaster kube]$ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
+[pippo@k8smaster kube]$ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
 ```
 
 ```bash
-[centos@k8smaster kube]$ cd kube/
+[pippo@k8smaster kube]$ cd kube/
 
-[centos@k8smaster kube]$ ls
+[pippo@k8smaster kube]$ ls
 bookinfo-certificate.yaml  bookinfo-ingress.yaml              bookinfo-ratings-v2-mysql.yaml  bookinfo.yaml
 bookinfo-db.yaml           bookinfo-mysql.yaml                bookinfo-ratings-v2.yaml        cleanup.sh
 bookinfo-details-v2.yaml   bookinfo-ratings-discovery.yaml    bookinfo-ratings.yaml           productpage-nodeport.yaml
 bookinfo-details.yaml      bookinfo-ratings-v2-mysql-vm.yaml  bookinfo-reviews-v2.yaml        README.md
-[centos@k8smaster kube]$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+[pippo@k8smaster kube]$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 error: the path "samples/bookinfo/networking/bookinfo-gateway.yaml" does not exist
-[centos@k8smaster kube]$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml^C
-[centos@k8smaster kube]$ kubectl apply -f /home/centos/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo.yaml ^C
-[centos@k8smaster kube]$ kubectl apply -f /home/centos/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo-ingress.yaml
+[pippo@k8smaster kube]$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml^C
+[pippo@k8smaster kube]$ kubectl apply -f /home/pippo/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo.yaml ^C
+[pippo@k8smaster kube]$ kubectl apply -f /home/pippo/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo-ingress.yaml
 Warning: networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 ingress.networking.k8s.io/gateway created
-[centos@k8smaster kube]$ kubectl get gateway
+[pippo@k8smaster kube]$ kubectl get gateway
 No resources found in default namespace.
-[centos@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
+[pippo@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)
       AGE
 istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:31916/TCP,80:30356/TCP,443:31490/TCP,31400:31999/TCP,15443:31057/TCP   83m
 ```
 
 ```bash
-[centos@k8smaster kube]$ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP
+[pippo@k8smaster kube]$ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP
 }')
 ```
 
 ```bash
-[centos@k8smaster kube]$ kubectl get pods -A
+[pippo@k8smaster kube]$ kubectl get pods -A
 NAMESPACE      NAME                                      READY   STATUS    RESTARTS   AGE
 default        details-v1-79c697d759-rgq2l               2/2     Running   0          20m
 default        productpage-v1-65576bb7bf-kvcnf           2/2     Running   0          20m
@@ -302,16 +190,16 @@ kube-system    kube-scheduler-k8smaster.local            1/1     Running   1    
 ```
 
 ```bash
-[centos@k8smaster kube]$ kubectl get gateway
+[pippo@k8smaster kube]$ kubectl get gateway
 No resources found in default namespace.
-[centos@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
+[pippo@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)
       AGE
 istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:31916/TCP,80:30356/TCP,443:31490/TCP,31400:31999/TCP,15443:31057/TCP   87m
 ```
 
 ```bash
-[centos@k8smaster kube]$  kubectl apply -f - <<EOF
+[pippo@k8smaster kube]$  kubectl apply -f - <<EOF
 > apiVersion: networking.istio.io/v1alpha3
 > kind: Gateway
 > metadata:
@@ -328,7 +216,7 @@ istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:31916/
 >     - "httpbin.example.com"
 > EOF
 gateway.networking.istio.io/httpbin-gateway created
-[centos@k8smaster kube]$ kubectl apply -f - <<EOF
+[pippo@k8smaster kube]$ kubectl apply -f - <<EOF
 > apiVersion: networking.istio.io/v1alpha3
 > kind: VirtualService
 > metadata:
@@ -354,27 +242,27 @@ virtualservice.networking.istio.io/httpbin created
 ```
 
 ```bash
-[centos@k8smaster kube]$ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
+[pippo@k8smaster kube]$ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
 ```
 
 
 ```bash
-[centos@k8smaster kube]$ [centos@k8smaster kube]$ kubectl get gateway
-ound in -bash: [centos@k8smaster: command not found
-default namespac[centos@k8smaster kube]$ No resources found in default namespace.
+[pippo@k8smaster kube]$ [pippo@k8smaster kube]$ kubectl get gateway
+ound in -bash: [pippo@k8smaster: command not found
+default namespac[pippo@k8smaster kube]$ No resources found in default namespace.
 -bash: No: command not found
-[centos@k8smaster kube]$ [centos@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
-ME                   -bash: [centos@k8smaster: command not found
-TYPE[centos@k8smaster kube]$ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)
+[pippo@k8smaster kube]$ [pippo@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
+ME                   -bash: [pippo@k8smaster: command not found
+TYPE[pippo@k8smaster kube]$ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)
 -bash: syntax error near unexpected token `('
-[centos@k8smaster kube]$       AGE
+[pippo@k8smaster kube]$       AGE
 -bash: AGE: command not found
-eway   LoadBalancer   10.105.168.66   [centos@k8smaster kube]$ istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:3100:31999/TCP,15443:31057/TCP   87m,3140
+eway   LoadBalancer   10.105.168.66   [pippo@k8smaster kube]$ istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:3100:31999/TCP,15443:31057/TCP   87m,3140
 -bash: pending: No such file or directory
 ```
 
 ```bash
-[centos@k8smaster kube]$ [centos@k8smaster kube]$  kubectl apply -f - <<EOF
+[pippo@k8smaster kube]$ [pippo@k8smaster kube]$  kubectl apply -f - <<EOF
 > > apiVersion: networking.istio.io/v1alpha3
 > > kind: Gateway
 > > metadata:
@@ -391,7 +279,7 @@ eway   LoadBalancer   10.105.168.66   [centos@k8smaster kube]$ istio-ingressgate
 > >     - "httpbin.example.com"
 > > EOF
 > gateway.networking.istio.io/httpbin-gateway created
-> [centos@k8smaster kube]$ kubectl apply -f - <<EOF
+> [pippo@k8smaster kube]$ kubectl apply -f - <<EOF
 > > apiVersion: networking.istio.io/v1alpha3
 > > kind: VirtualService
 > > metadata:
@@ -417,13 +305,13 @@ eway   LoadBalancer   10.105.168.66   [centos@k8smaster kube]$ istio-ingressgate
 ```
 
 ```bash
-> [centos@k8smaster kube]$ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
+> [pippo@k8smaster kube]$ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
 ```
 
 ```bash
-[centos@k8smaster kube]$ cd kube/
+[pippo@k8smaster kube]$ cd kube/
 
-[centos@k8smaster kube]$ ls
+[pippo@k8smaster kube]$ ls
 
 bookinfo-certificate.yaml  bookinfo-ingress.yaml              bookinfo-ratings-v2-mysql.yaml  bookinfo.yaml
 bookinfo-db.yaml           bookinfo-mysql.yaml                bookinfo-ratings-v2.yaml        cleanup.sh
@@ -434,30 +322,30 @@ bookinfo-details.yaml      bookinfo-ratings-v2-mysql-vm.yaml  bookinfo-reviews-v
 
 
 ```bash
-[centos@k8smaster httpbin]$ kubectl apply -f /home/centos/istio-1.8.2/samples/httpbin/httpbin.yaml
+[pippo@k8smaster httpbin]$ kubectl apply -f /home/pippo/istio-1.8.2/samples/httpbin/httpbin.yaml
 serviceaccount/httpbin created
 service/httpbin created
 deployment.apps/httpbin created
-[centos@k8smaster httpbin]$ kubectl get svc istio-ingressgateway -n istio-system
+[pippo@k8smaster httpbin]$ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)
       AGE
 istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:31916/TCP,80:30356/TCP,443:31490/TCP,31400:31999/TCP,15443:31057/TCP   95m
 ```
 
 ```bash
-[centos@k8smaster httpbin]$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingr[centos@k8smaster httpbin]$ export SECURE_INGRESS_PORT=$(kubectl [?(@.name=="https")].nodePort}')o-ingressgateway -o jsonpath='{.spec.ports[
-rt TCP_INGRESS_PORT=$(kubectl -n istio-system[centos@k8smaster httpbin]$ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service isti@.name=="tcp")].nodePort}')h='{.spec.ports[?(@
+[pippo@k8smaster httpbin]$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingr[pippo@k8smaster httpbin]$ export SECURE_INGRESS_PORT=$(kubectl [?(@.name=="https")].nodePort}')o-ingressgateway -o jsonpath='{.spec.ports[
+rt TCP_INGRESS_PORT=$(kubectl -n istio-system[pippo@k8smaster httpbin]$ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service isti@.name=="tcp")].nodePort}')h='{.spec.ports[?(@
 ```
 
 ```bash
-[centos@k8smaster httpbin]$ echo $INGRESS_PORT
+[pippo@k8smaster httpbin]$ echo $INGRESS_PORT
 30356
 ```
 
 ```bash
-[centos@k8smaster httpbin]$  export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
-[centos@k8smaster httpbin]$ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
+[pippo@k8smaster httpbin]$  export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
+[pippo@k8smaster httpbin]$ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
 HTTP/1.1 200 OK
 server: istio-envoy
 date: Wed, 27 Jan 2021 15:45:33 GMT
@@ -470,25 +358,25 @@ x-envoy-upstream-service-time: 64
 
 
 ```bash
-[centos@k8smaster httpbin]$ kubectl get gateway
+[pippo@k8smaster httpbin]$ kubectl get gateway
 NAME              AGE
 httpbin-gateway   9m32s
-[centos@k8smaster httpbin]$
-[centos@k8smaster httpbin]$ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
-[centos@k8smaster httpbin]$ echo $GATEWAY_URL
+[pippo@k8smaster httpbin]$
+[pippo@k8smaster httpbin]$ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+[pippo@k8smaster httpbin]$ echo $GATEWAY_URL
 192.168.146.139:30356
 ```
 
-[centos@k8smaster httpbin]$
+[pippo@k8smaster httpbin]$
 
 ```bash
-[centos@k8smaster samples]$ curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
+[pippo@k8smaster samples]$ curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 ```
 
 ```bash
-[centos@k8smaster samples]$ cd bookinfo/networking/
-[centos@k8smaster networking]$ ls
+[pippo@k8smaster samples]$ cd bookinfo/networking/
+[pippo@k8smaster networking]$ ls
 bookinfo-gateway.yaml            virtual-service-all-v1.yaml              virtual-service-reviews-50-v3.yaml
 certmanager-gateway.yaml         virtual-service-details-v2.yaml          virtual-service-reviews-80-20.yaml
 destination-rule-all-mtls.yaml   virtual-service-ratings-db.yaml          virtual-service-reviews-90-10.yaml
@@ -496,17 +384,17 @@ destination-rule-all.yaml        virtual-service-ratings-mysql-vm.yaml    virtua
 destination-rule-reviews.yaml    virtual-service-ratings-mysql.yaml       virtual-service-reviews-test-v2.yaml
 egress-rule-google-apis.yaml     virtual-service-ratings-test-abort.yaml  virtual-service-reviews-v2-v3.yaml
 fault-injection-details-v1.yaml  virtual-service-ratings-test-delay.yaml  virtual-service-reviews-v3.yaml
-[centos@k8smaster networking]$ pwd
-/home/centos/istio-1.8.2/samples/bookinfo/networking
+[pippo@k8smaster networking]$ pwd
+/home/pippo/istio-1.8.2/samples/bookinfo/networking
 ```
 
 ```bash
-[centos@k8smaster networking]$ kubectl apply -f /home/centos/istio-1.8.2/samples/bookinfo/networking/destination-rule-all.yaml
+[pippo@k8smaster networking]$ kubectl apply -f /home/pippo/istio-1.8.2/samples/bookinfo/networking/destination-rule-all.yaml
 destinationrule.networking.istio.io/productpage created
 destinationrule.networking.istio.io/reviews created
 destinationrule.networking.istio.io/ratings created
 destinationrule.networking.istio.io/details created
-[centos@k8smaster networking]$ kubectl get destinationrules -o yaml
+[pippo@k8smaster networking]$ kubectl get destinationrules -o yaml
 apiVersion: v1
 items:
 - apiVersion: networking.istio.io/v1beta1
@@ -667,13 +555,13 @@ metadata:
 #### CLEANUP
 
 ```bash
-[centos@k8smaster networking]$ cd ..
-[centos@k8smaster bookinfo]$ cd ..
-[centos@k8smaster samples]$ cd bookinfo/platform/kube/
-[centos@k8smaster kube]$ pwd
-/home/centos/istio-1.8.2/samples/bookinfo/platform/kube
+[pippo@k8smaster networking]$ cd ..
+[pippo@k8smaster bookinfo]$ cd ..
+[pippo@k8smaster samples]$ cd bookinfo/platform/kube/
+[pippo@k8smaster kube]$ pwd
+/home/pippo/istio-1.8.2/samples/bookinfo/platform/kube
 
-[centos@k8smaster kube]$ ./cleanup.sh
+[pippo@k8smaster kube]$ ./cleanup.sh
 namespace ? [default]
 using NAMESPACE=default
 I0127 17:01:02.015582   65111 request.go:655] Throttling request took 1.135764407s, request: GET:https://192.168.147.140:6443/apis/networking.k8s.io/v1beta1?timeout=32s
@@ -831,131 +719,3 @@ EET0Z5sgR3ynAfS8E/7Khzq6oAl1zwwh3NvBKss7JQsPtMwK7FdolD0VTVH9jog1
 
 
 
-######### INSTALL ADDONS KIALI - GRAFANA - PROMETHEUS
-
-❯ cd addons
-❯ ls
-extras  grafana.yaml  jaeger.yaml  kiali.yaml  prometheus.yaml  README.md
-❯ pwd
-/home/centos/istio-1.8.2/samples/addons
-❯ kubectl apply -f /home/centos/istio-1.8.2/samples/addons/kiali.yaml
-Warning: apiextensions.k8s.io/v1beta1 CustomResourceDefinition is deprecated in v1.16+, unavailable in v1.22+; use apiextensions.k8s.io/v1 CustomResourceDefinition
-customresourcedefinition.apiextensions.k8s.io/monitoringdashboards.monitoring.kiali.io created
-serviceaccount/kiali created
-configmap/kiali created
-clusterrole.rbac.authorization.k8s.io/kiali-viewer created
-clusterrole.rbac.authorization.k8s.io/kiali created
-clusterrolebinding.rbac.authorization.k8s.io/kiali created
-service/kiali created
-deployment.apps/kiali created
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-unable to recognize "/home/centos/istio-1.8.2/samples/addons/kiali.yaml": no matches for kind "MonitoringDashboard" in version "monitoring.kiali.io/v1alpha1"
-❯ pods
-NAMESPACE              NAME                                         READY   STATUS    RESTARTS   AGE
-default                httpbin-74fb669cc6-fxn2d                     2/2     Running   6          23h
-istio-system           istio-egressgateway-64d976b9b5-fwbtv         1/1     Running   3          25h
-istio-system           istio-ingressgateway-68c86b9fc8-2s5xd        1/1     Running   3          25h
-istio-system           istiod-5c986fb85b-fj2xv                      1/1     Running   3          25h
-istio-system           kiali-7476977cf9-b5xrd                       0/1     Running   0          33s
-kube-system            coredns-74ff55c5b-7pjvq                      1/1     Running   4          44h
-kube-system            coredns-74ff55c5b-lcq9j                      1/1     Running   4          44h
-kube-system            etcd-k8smaster.local                         1/1     Running   9          44h
-kube-system            kube-apiserver-k8smaster.local               1/1     Running   9          44h
-kube-system            kube-controller-manager-k8smaster.local      1/1     Running   5          44h
-kube-system            kube-flannel-ds-4ctvz                        1/1     Running   6          44h
-kube-system            kube-flannel-ds-ktt85                        1/1     Running   6          44h
-kube-system            kube-flannel-ds-wbdmn                        1/1     Running   4          44h
-kube-system            kube-proxy-2clbg                             1/1     Running   6          44h
-kube-system            kube-proxy-jrxhq                             1/1     Running   6          44h
-kube-system            kube-proxy-t8dmw                             1/1     Running   4          44h
-kube-system            kube-scheduler-k8smaster.local               1/1     Running   5          44h
-kubernetes-dashboard   dashboard-metrics-scraper-79c5968bdc-d6f4l   1/1     Running   1          4h10m
-kubernetes-dashboard   kubernetes-dashboard-7448ffc97b-pmcfm        1/1     Running   1          4h10m
-❯ pods
-NAMESPACE              NAME                                         READY   STATUS    RESTARTS   AGE
-default                httpbin-74fb669cc6-fxn2d                     2/2     Running   6          23h
-istio-system           istio-egressgateway-64d976b9b5-fwbtv         1/1     Running   3          25h
-istio-system           istio-ingressgateway-68c86b9fc8-2s5xd        1/1     Running   3          25h
-istio-system           istiod-5c986fb85b-fj2xv                      1/1     Running   3          25h
-istio-system           kiali-7476977cf9-b5xrd                       1/1     Running   0          47s
-kube-system            coredns-74ff55c5b-7pjvq                      1/1     Running   4          44h
-kube-system            coredns-74ff55c5b-lcq9j                      1/1     Running   4          44h
-kube-system            etcd-k8smaster.local                         1/1     Running   9          44h
-kube-system            kube-apiserver-k8smaster.local               1/1     Running   9          44h
-kube-system            kube-controller-manager-k8smaster.local      1/1     Running   5          44h
-kube-system            kube-flannel-ds-4ctvz                        1/1     Running   6          44h
-kube-system            kube-flannel-ds-ktt85                        1/1     Running   6          44h
-kube-system            kube-flannel-ds-wbdmn                        1/1     Running   4          44h
-kube-system            kube-proxy-2clbg                             1/1     Running   6          44h
-kube-system            kube-proxy-jrxhq                             1/1     Running   6          44h
-kube-system            kube-proxy-t8dmw                             1/1     Running   4          44h
-kube-system            kube-scheduler-k8smaster.local               1/1     Running   5          44h
-kubernetes-dashboard   dashboard-metrics-scraper-79c5968bdc-d6f4l   1/1     Running   1          4h11m
-kubernetes-dashboard   kubernetes-dashboard-7448ffc97b-pmcfm        1/1     Running   1          4h11m
-❯ istioctl dashboard kiali
-http://localhost:20001/kiali
-^C%
-❯ ls -ltra
-total 300
--rw-r--r--  1 centos centos   5186 Jan 13 02:06 README.md
--rw-r--r--  1 centos centos  13250 Jan 13 02:06 prometheus.yaml
--rw-r--r--  1 centos centos  35080 Jan 13 02:06 kiali.yaml
--rw-r--r--  1 centos centos   2317 Jan 13 02:06 jaeger.yaml
--rw-r--r--  1 centos centos 240054 Jan 13 02:06 grafana.yaml
-drwxr-xr-x  2 centos centos     57 Jan 13 02:06 extras
-drwxr-xr-x 19 centos centos    307 Jan 13 02:06 ..
-drwxr-xr-x  3 centos centos    117 Jan 13 02:06 .
-❯ kubectl apply -f /home/centos/istio-1.8.2/samples/addons/prometheus.yaml
-serviceaccount/prometheus created
-configmap/prometheus created
-clusterrole.rbac.authorization.k8s.io/prometheus created
-clusterrolebinding.rbac.authorization.k8s.io/prometheus created
-service/prometheus created
-deployment.apps/prometheus created
-❯ pods
-NAMESPACE              NAME                                         READY   STATUS    RESTARTS   AGE
-default                httpbin-74fb669cc6-fxn2d                     2/2     Running   6          24h
-istio-system           istio-egressgateway-64d976b9b5-fwbtv         1/1     Running   3          25h
-istio-system           istio-ingressgateway-68c86b9fc8-2s5xd        1/1     Running   3          25h
-istio-system           istiod-5c986fb85b-fj2xv                      1/1     Running   3          25h
-istio-system           kiali-7476977cf9-b5xrd                       1/1     Running   0          21m
-istio-system           prometheus-7bfddb8dbf-5xgm7                  2/2     Running   0          71s
-kube-system            coredns-74ff55c5b-7pjvq                      1/1     Running   4          44h
-kube-system            coredns-74ff55c5b-lcq9j                      1/1     Running   4          44h
-kube-system            etcd-k8smaster.local                         1/1     Running   9          44h
-kube-system            kube-apiserver-k8smaster.local               1/1     Running   9          44h
-kube-system            kube-controller-manager-k8smaster.local      1/1     Running   5          44h
-kube-system            kube-flannel-ds-4ctvz                        1/1     Running   6          44h
-kube-system            kube-flannel-ds-ktt85                        1/1     Running   6          44h
-kube-system            kube-flannel-ds-wbdmn                        1/1     Running   4          44h
-kube-system            kube-proxy-2clbg                             1/1     Running   6          44h
-kube-system            kube-proxy-jrxhq                             1/1     Running   6          44h
-kube-system            kube-proxy-t8dmw                             1/1     Running   4          44h
-kube-system            kube-scheduler-k8smaster.local               1/1     Running   5          44h
-kubernetes-dashboard   dashboard-metrics-scraper-79c5968bdc-d6f4l   1/1     Running   1          4h31m
-kubernetes-dashboard   kubernetes-dashboard-7448ffc97b-pmcfm        1/1     Running   1          4h31m
-❯ kubectl apply -f /home/centos/istio-1.8.2/samples/addons/grafana.yaml
-serviceaccount/grafana created
-configmap/grafana created
-service/grafana created
-deployment.apps/grafana created
-configmap/istio-grafana-dashboards created
-configmap/istio-services-grafana-dashboards created

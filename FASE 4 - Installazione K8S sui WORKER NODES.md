@@ -1,6 +1,6 @@
 ### FASE 4 - Installazione K8S sui WORKER NODES
 
-* Per i 2 Worker Nodes, assicurarsi di aver completatole FASI 1, la FASE 2 e la **FASE 3** fino al punto 3.3 compreso (3.3 K8S - KUBEADM INSTALL),
+* Per i 2 Worker Nodes, assicurarsi di aver completato la FASI 1, la FASE 2 e la **FASE 3 fino al punto 3.3 compreso** (3.3 K8S - KUBEADM INSTALL),
 * dopo di che da ognuno dei Worker Node, lanciare il seguente comando di aggiunta al Master Node k8smaster.local) :
 
 ```bash
