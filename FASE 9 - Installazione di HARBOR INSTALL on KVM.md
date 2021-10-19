@@ -234,8 +234,8 @@ http:
 
 https:
   port: 443
-  certificate: /etc/letsencrypt/live/registry.computingforgeeks.com/fullchain.pem
-  private_key: /etc/letsencrypt/live/registry.computingforgeeks.com/privkey.pem
+  certificate: /etc/letsencrypt/live/registry.computingforpippo.com/fullchain.pem
+  private_key: /etc/letsencrypt/live/registry.computingforpippo.com/privkey.pem
 Harbor Installation with Self Signed SSL Certificates
 
 
@@ -291,7 +291,7 @@ $ openssl x509 -text -noout -in harbor_registry.crt
 #### FASE 9.16 - Configurare con nuovi parametri https config file : 
 
 ```bash
-hostname: registry.computingforgeeks.com
+hostname: registry.superpippo.com
 harbor_admin_password: StrongAdminP@s5W0$d
 
 # Harbor DB configuration
@@ -366,7 +366,7 @@ Clean up the input dir
 
 ✔ ----Harbor has been installed and started successfully.----
 
-Now you should be able to visit the admin portal at http://registry.computingforgeeks.com. 
+Now you should be able to visit the admin portal at http://registry.computingforpippo.com. 
 For more details, please visit https://github.com/goharbor/harbor .
 Confirm that all containers are started.
 
