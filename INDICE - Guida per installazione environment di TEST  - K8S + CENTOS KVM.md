@@ -37,6 +37,10 @@ Infine
 
   >seguire istruzioni nel file locale : FASE 7 - Installazione JENKINS su K8S MASTER.md
     
-  #### ESEMPIO di SERVICE MESH (BOOKINFO WEB APPS and SERVICES)
+* #### ESEMPIO di SERVICE MESH (BOOKINFO WEB APPS and SERVICES)
 
-> seguire istruzioni nel file locale : ESEMPIO di SERVICE MESH - BOOKINFO WEB APPS and SERVICES.md
+  > seguire istruzioni nel file locale : ESEMPIO di SERVICE MESH - BOOKINFO WEB APPS and SERVICES.md
+
+* #### INSTALLAZIONE DELLO STACK EFK e CONNESSIONE AL MASTER NODE K8S
+
+  > seguire istruzioni nel file locale : EFK-STACK installazione on K8S.md
