@@ -1,8 +1,8 @@
 
-### ESEMPIO di SERVICE MESH (BOOKINFO WEB APPS and SERVICES)
+### FASE 9 - ESEMPIO di SERVICE MESH (BOOKINFO WEB APPS and SERVICES)
 
 
-  > https://github.com/istio/istio/blob/master/samples/bookinfo/platform/kube/bookinfo.yaml
+  > Vedi documentazione ufficiale al sito : https://github.com/istio/istio/blob/master/samples/bookinfo/platform/kube/bookinfo.yaml
 
 
 ```bash
@@ -22,7 +22,8 @@ service/productpage created
 serviceaccount/bookinfo-productpage created
 deployment.apps/productpage-v1 created
 ```
-#### CONTROLLO DEI SERVIZI E RELATIVI PODS CREATI :
+
+#### FASE 9.1 - CONTROLLO DEI SERVIZI E RELATIVI PODS CREATI :
 
 ```bash
 [pippo@k8smaster kube]$ kubectl get services
@@ -55,9 +56,10 @@ kube-system    kube-proxy-2clbg                          1/1     Running   3    
 kube-system    kube-proxy-jrxhq                          1/1     Running   3          20h
 kube-system    kube-proxy-t8dmw                          1/1     Running   1          20h
 kube-system    kube-scheduler-k8smaster.local            1/1     Running   1          20h
-[pippo@k8smaster kube]$
+
+
 ```
-#### ESECUZIONE DEI VARI ESEMPI DI SERVIZIO 
+#### FASE 9.2 - ESECUZIONE DEI VARI ESEMPI DI SERVIZIO 
 
 ```bash
 [pippo@k8smaster kube]$ kubectl exec "$(kubectl get pod -l app=ratings -o
@@ -70,7 +72,8 @@ jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/produ
 <title>Simple Bookstore App</title>
 ```
 
-#### CREAZIONE DELL'INGRESS 
+#### FASE 9.3 - CREAZIONE DELL'INGRESS 
+
 ```bash
 [pippo@k8smaster kube]$ kubectl apply -f 
 /home/pippo/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo-ingress.yaml
@@ -80,13 +83,14 @@ ingress.networking.k8s.io/gateway created
 
 ```
 ```bash
-[pippo@k8smaster kube]$ kubectl get gateway
-No resources found in default namespace.
+
 [pippo@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)
       AGE
 istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:31916/TCP,80:30356/TCP,443:31490/TCP,31400:31999/TCP,15443:31057/TCP   87m
 ```
+
+#### FASE 9.4 - CREAZIONE DEL GATEWAY 
 
 ```bash
 [pippo@k8smaster kube]$  kubectl apply -f - <<EOF
@@ -131,9 +135,7 @@ gateway.networking.istio.io/httpbin-gateway created
 virtualservice.networking.istio.io/httpbin created
 ```
 
-```bash
-[pippo@k8smaster kube]$ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
-```
+#### FASE 9.5 - INSTALLAZIONE INGRESS 
 
 ```bash
 [pippo@k8smaster kube]$ cd kube/
@@ -143,15 +145,12 @@ bookinfo-certificate.yaml  bookinfo-ingress.yaml              bookinfo-ratings-v
 bookinfo-db.yaml           bookinfo-mysql.yaml                bookinfo-ratings-v2.yaml        cleanup.sh
 bookinfo-details-v2.yaml   bookinfo-ratings-discovery.yaml    bookinfo-ratings.yaml           productpage-nodeport.yaml
 bookinfo-details.yaml      bookinfo-ratings-v2-mysql-vm.yaml  bookinfo-reviews-v2.yaml        README.md
-[pippo@k8smaster kube]$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
-error: the path "samples/bookinfo/networking/bookinfo-gateway.yaml" does not exist
-[pippo@k8smaster kube]$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml^C
-[pippo@k8smaster kube]$ kubectl apply -f /home/pippo/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo.yaml ^C
-[pippo@k8smaster kube]$ kubectl apply -f /home/pippo/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo-ingress.yaml
+
+[[pippo@k8smaster kube]$ kubectl apply -f /home/pippo/istio-1.8.2/samples/bookinfo/platform/kube/bookinfo-ingress.yaml
 Warning: networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 ingress.networking.k8s.io/gateway created
-[pippo@k8smaster kube]$ kubectl get gateway
-No resources found in default namespace.
+
+
 [pippo@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)
       AGE
@@ -162,6 +161,7 @@ istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:31916/
 [pippo@k8smaster kube]$ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP
 }')
 ```
+#### FASE 9.6 - TEST
 
 ```bash
 [pippo@k8smaster kube]$ kubectl get pods -A
@@ -189,68 +189,9 @@ kube-system    kube-proxy-t8dmw                          1/1     Running   1    
 kube-system    kube-scheduler-k8smaster.local            1/1     Running   1          20h
 ```
 
-```bash
-[pippo@k8smaster kube]$ kubectl get gateway
-No resources found in default namespace.
-[pippo@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)
-      AGE
-istio-ingressgateway   LoadBalancer   10.105.168.66   <pending>     15021:31916/TCP,80:30356/TCP,443:31490/TCP,31400:31999/TCP,15443:31057/TCP   87m
-```
 
 ```bash
-[pippo@k8smaster kube]$  kubectl apply -f - <<EOF
-> apiVersion: networking.istio.io/v1alpha3
-> kind: Gateway
-> metadata:
->   name: httpbin-gateway
-> spec:
->   selector:
->     istio: ingressgateway # use Istio default gateway implementation
->   servers:
->   - port:
->       number: 80
->       name: http
->       protocol: HTTP
->     hosts:
->     - "httpbin.example.com"
-> EOF
-gateway.networking.istio.io/httpbin-gateway created
-[pippo@k8smaster kube]$ kubectl apply -f - <<EOF
-> apiVersion: networking.istio.io/v1alpha3
-> kind: VirtualService
-> metadata:
->   name: httpbin
-> spec:
->   hosts:
->   - "httpbin.example.com"
->   gateways:
->   - httpbin-gateway
->   http:
->   - match:
->     - uri:
->         prefix: /status
->     - uri:
->         prefix: /delay
->     route:
->     - destination:
->         port:
->           number: 8000
->         host: httpbin
-> EOF
-virtualservice.networking.istio.io/httpbin created
-```
 
-```bash
-[pippo@k8smaster kube]$ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
-```
-
-
-```bash
-[pippo@k8smaster kube]$ [pippo@k8smaster kube]$ kubectl get gateway
-ound in -bash: [pippo@k8smaster: command not found
-default namespac[pippo@k8smaster kube]$ No resources found in default namespace.
--bash: No: command not found
 [pippo@k8smaster kube]$ [pippo@k8smaster kube]$ kubectl get svc istio-ingressgateway -n istio-system
 ME                   -bash: [pippo@k8smaster: command not found
 TYPE[pippo@k8smaster kube]$ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)
@@ -552,7 +493,8 @@ metadata:
   resourceVersion: ""
   selfLink: ""
 ```
-#### CLEANUP
+
+#### FASE CLEANUP
 
 ```bash
 [pippo@k8smaster networking]$ cd ..

@@ -1,4 +1,4 @@
-#### FASE 8 - INSTALLAZIONE di uno STACK EFK
+### FASE 8 - INSTALLAZIONE di uno STACK EFK
 
   > Per la creazione della VM adatta, seguire la guida presente nel file locale (FASE 1 - Creazione delle VM in ambiente KVM-Cockpit.md)
   > con l'unica diifferenza di aumentare a 160 GB il size del disco o in alternativa aggiungerne uno da 80 GB.

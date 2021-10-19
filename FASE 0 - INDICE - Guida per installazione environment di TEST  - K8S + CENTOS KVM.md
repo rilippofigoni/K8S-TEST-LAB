@@ -2,11 +2,11 @@
 
 #### PREMESSA:
 
-Lo scopo di questo documento è quello di descrivere in maniera sintetica e accurata le varie fasi occorrenti - in rigoroso ordine temporale - per la creazione di un **TEST-cluster** Kubernetes all'interno di un ambiente virtuale LINUX-KVM, usando delle CentOS 8.
+Lo scopo di questo documento è quello di descrivere in maniera sintetica e accurata le varie fasi occorrenti - in rigoroso ordine temporale - per la creazione di un **TEST-cluster** Kubernetes all'interno di un ambiente virtuale LINUX-KVM, usando delle VM CentOS 8.
 Seguiranno poi, nei files di esempio sucessivi, le istruzioni per creare altre 2 KVM atte ad ospitare un'installazione di HARBOR Registry ed un altra per lo STACK EFK.
-Infine
 
-* #### FASE 1 - Creazione delle VM in ambiente KVM/Cockpit:
+
+* #### FASE 1 - Creazione delle VM in ambiente Linux KVM/Cockpit:
 
   > seguire instruzione nel file locale : ** FASE 1 - Creazione delle VM in ambiente KVM-Cockpit.md**
 
@@ -36,11 +36,11 @@ Infine
 * #### FASE 7 - Installazione JENKINS su K8S MASTER
 
   >seguire istruzioni nel file locale : FASE 7 - Installazione JENKINS su K8S MASTER.md
-    
-* #### ESEMPIO di SERVICE MESH (BOOKINFO WEB APPS and SERVICES)
 
-  > seguire istruzioni nel file locale : ESEMPIO di SERVICE MESH - BOOKINFO WEB APPS and SERVICES.md
-
-* #### INSTALLAZIONE DELLO STACK EFK e CONNESSIONE AL MASTER NODE K8S
+* #### FASE 8 - INSTALLAZIONE DELLO STACK EFK e CONNESSIONE AL MASTER NODE K8S
 
   > seguire istruzioni nel file locale : EFK-STACK installazione on K8S.md
+    
+* #### FASE 9 - INSTALLAZIONE DI HARBOR - PRIVATE REGISTRY
+
+> seguire istruzioni nel file locale : FASE 9 - Installazione di HARBOR INSTALL on KVM.md
