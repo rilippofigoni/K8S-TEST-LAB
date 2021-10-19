@@ -292,6 +292,6 @@ grafana   ClusterIP   10.103.244.103   <none>        3000/TCP   2m25s
 [http://localhost:3000/dashboard/db/istio-mesh-dashboard](http://localhost:3000/dashboard/db/istio-mesh-dashboard)
 
 
-#### N.B : PER TESTARE IL FUNZIONAMENTO DELLE SERVICE MESH, SEGUIRE LE ISTRUZIONI CONTENUTE NEL FILE LOCALE:
+#### N.B : PER TESTARE IL FUNZIONAMENTO DELLE SERVICE MESH, SEGUIRE L'ESEMPIO :
 
-    > FASE 9 - ESEMPIO di SERVICE MESH - BOOKINFO WEB APPS and SERVICES.md
+https://github.com/istio/istio/tree/master/samples/bookinfo
