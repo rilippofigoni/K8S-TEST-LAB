@@ -1,5 +1,5 @@
 
-### FASE 3 - Attività d'installazione di Docker e Cluster K8S sul Master Node
+### FASE 3 - Attività d'installazione di Docker e K8S sul Master Node
 
 #### 3.1 DOCKER INSTALL 
 
@@ -17,8 +17,9 @@ sudo systemctl enable docker
 sudo systemctl start docker
 ```
 
+#### 3.2 K8S - KUBEADM INSTALL REPO 
 
-#### 3.2 K8S - KUBEADM INSTALL REPO - (controlla esistenza repo configurato) :
+> (controlla esistenza repo configurato) :
 
 ```bash
 sudo su -
@@ -45,7 +46,7 @@ sudo systemctl start kubelet
 ```
 
 
-#### 3.4 INSTALLAZIONE DEL CLUSTER CON PREDISPOSIZIONE POD CNI-FLANNEL di default 
+#### 3.4 INSTALLAZIONE DEL CLUSTER CON PREDISPOSIZIONE POD CNI-FLANNEL
 
 
 ```bash
@@ -74,10 +75,13 @@ kubeadm join 192.168.122.185:6443 --token 661i0n.3c9joy698fqr3tk2
 --discovery-token-ca-cert-hash sha256:7a3cc1f77
 71ad2d4853f0b888dd833f77fe7270079f0aecc5254b61bea23cb77
 ```
-> *Comando per aggiunger poi u 2 worker nodes (da COPIARE!!!)* 
+> *N.B: L’ultimo comando è quello per aggiunger poi u 2 worker nodes (da COPIARE!!!)*
+>
+>  
 
+#### 3.5 CONTROLLO DELLA RIUSCITA INSTALLAZIONE 
 
-#### 3.5 CONTROLLO DELLA RIUSCITA INSTALLAZIONE - (10/15 min dopo)
+> Aspettare 10/15 min circa, lo status deve essere Ready
 
 ```bash
 [pippo@k8smaster ~]$ kubectl get nodes
@@ -88,7 +92,7 @@ k8smaster.local   Ready    control-plane,master   30h   v1.20.2
 ```
 
 #### 3.6 CONFIGURAZIONE UTENTE E PERMESSI [SOLO PER IL MASTER]	
-	
+
 ```bash
 [root@k8smaster ~] sudo su - pippo
 Last login: Tue Feb  9 16:25:40 CET 2021 on pts/0
@@ -108,6 +112,7 @@ Last login: Tue Feb  9 16:25:40 CET 2021 on pts/0
 ```bash
 
 [pippo@k8smaster ~]$ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
 podsecuritypolicy.policy/psp.flannel.unprivileged created
 clusterrole.rbac.authorization.k8s.io/flannel created
 clusterrolebinding.rbac.authorization.k8s.io/flannel created
@@ -116,6 +121,8 @@ configmap/kube-flannel-cfg created
 daemonset.apps/kube-flannel-ds created
 ```
 #### 3.8 CONTROLLO FINALE DELLO STATUS DEL CLUSTER
+
+> N.B : devono essere tutti i pod in stato Running
 
 
 ```bash

@@ -38,7 +38,7 @@ usermod -aG wheel pippo
 ```bash
 sudo cat <<EOF>> /etc/hosts
 192.168.122.185         k8smaster.local     k8smaster
-192.168.122.8	          k8snode01.local     k8snode1
+192.168.122.8	        k8snode01.local     k8snode1
 192.168.122.213         k8snode02.local     k8snode2
 192.168.122.129         efk_stack.local     efk_stack  
 EOF
@@ -122,7 +122,7 @@ sudo dnf install elasticsearch -y
 
 #### FASE 8.12 - CONFIGURAZIONE Di ELASTICSEARCH
 
-  >Ricordarsi : #BACKUP : cp /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.original
+  >Ricordarsi di fare il BACKUP : cp /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.original
 
 ```bash
 
@@ -177,7 +177,7 @@ systemctl status elasticsearch
 ```
 
 #### FASE 8.15 : TEST #2 - IP locale
- 
+
 ```bash
 [root@efk-elastic-kibana ~] curl http://192.168.122.219:9200/_cluster/health?pretty
 {
@@ -199,7 +199,7 @@ systemctl status elasticsearch
 ```
 
 #### FASE 8.16 - INSTALLAZIONE DI KIBANA
- 
+
 ```bash
 sudo yum -y install kibana
 
@@ -217,16 +217,16 @@ sudo systemctl daemon-reload
 sudo systemctl start kibana
 sudo systemctl enable kibana
 ```
- 
+
 #### FASE 8.18 - CREAZIONE DEGLI UTENTI :
- 
+
 ```bash
 sudo htpasswd -c /etc/nginx/htpasswd.elastic.users elasticuser01
 sudo htpasswd -c /etc/nginx/htpasswd.kibana.users kibanauser01
 ```
 
 ### FASE 8.19 - INSTALLAZIONE e CONFIGURAZIONE NGINX
- 
+
 ```bash
 yum install install nginx
 
@@ -312,12 +312,12 @@ sudo systemctl enable nginx
 #### FASE 8.23 - CONTROLLO WEB ACCESS KIBANA
 
 ```bash
-[root@efk_stack] curl --user kibanauser01:Lollo.2003 127.0.0.1:8080
+[root@efk_stack] curl --user kibanauser01:xxxx.0000 127.0.0.1:8080
 ```
 
 
 
-#### FASE 8.24 - CONNECTION TO k8S CLUSTER - CONTROLLO FILE CONFIGARAZIONE :
+#### FASE 8.24 - CONNECTION TO k8S CLUSTER - CREAZI FILE CONFIGARAZIONE :
 
 ```bash
 sudo vim /etc/elasticsearch/elasticsearch.yml
@@ -335,7 +335,7 @@ http.port: 9200
 ```
 
 
-#### FASE 8.25 - DOWNLOAD DEI FILES FILEBEAT E METRICBEAT PER IL DEPLOY
+#### FASE 8.25 - DOWNLOAD DEI FILES FILEBEAT E METRICBEAT PER IL DEPLOY su K8S
 
 ```bash
 cd ~
@@ -437,5 +437,4 @@ metricbeat-jbppx                                 1/1     Running   1
 
 ### start the KIBANA web interface
 http://localhost:8080
-
 

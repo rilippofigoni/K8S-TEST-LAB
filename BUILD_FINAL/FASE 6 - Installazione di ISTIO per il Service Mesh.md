@@ -1,13 +1,14 @@
 ### FASE 6 - INSTALLAZIONE DI ISTIO per il SERVICE MESH
 
-    
+​    
 
-#### FASE 6.1 - DOWNLOAD DI ISTIO
+#### FASE 6.1 - DOWNLOAD ISTIO
 
-    >Controllare la versione sia aggiornata nei repo ufficiali di github
+    Controllare prima la versione sia aggiornata nei repo ufficiali di github
 
 ```bash
 [pippo@k8smaster ~]$ curl -L https://istio.io/downloadIstio | sh -
+
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   102  100   102    0     0    152      0 --:--:-- --:--:-- --:--:--   151
@@ -292,6 +293,10 @@ grafana   ClusterIP   10.103.244.103   <none>        3000/TCP   2m25s
 [http://localhost:3000/dashboard/db/istio-mesh-dashboard](http://localhost:3000/dashboard/db/istio-mesh-dashboard)
 
 
-#### N.B : PER TESTARE IL FUNZIONAMENTO DELLE SERVICE MESH, SEGUIRE L'ESEMPIO :
+
+
+
+
+#### N.B : PER TESTARE IL FUNZIONAMENTO DELLE SERVICE MESH, SEGUIRE L'ESEMPIO 
 
 https://github.com/istio/istio/tree/master/samples/bookinfo

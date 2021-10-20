@@ -1,6 +1,6 @@
-#### FASE 5 - Configurazione CNI-NETWORK del CLUSTER k8S
+#### FASE 5 - Configurazione CNI-NETWORK del CLUSTER K8S
 
->Vista l'esigenza di operare a livello Network con 2 LAN separate, si procede all'installazione del Plugin CNI - MULTUS 
+>Vista l'esigenza di operare a livello Network con 2 LAN separate, si procede all'installazione del Plugin CNI - MULTUS, il quale crea una ETH aggiuntiva.
 vedi docs : https://github.com/k8snetworkplumbingwg/multus-cni
 
 #### INSTALLAZIONE del POD CNI PER MULTUS (ETH aggiuntiva) #####
@@ -93,7 +93,9 @@ spec:
     image: alpine
 EOF
 ```
-#### CONTROLLO DELLA PRESENZA DI UNA SECONDA ETH : net1@eth0
+#### CONTROLLO DELLA PRESENZA DI UNA SECONDA ETH 
+
+> All’interno del POD appena creato viene creata la seconda scheda net1@eth0 
 
 ```bash
 [pippo@k8smaster ~]$ kubectl exec -it samplepod -- ip a
@@ -110,3 +112,4 @@ EOF
     inet 192.168.101.100/24 brd 192.168.101.255 scope global net1
        valid_lft forever preferred_lft forever
 ```
+

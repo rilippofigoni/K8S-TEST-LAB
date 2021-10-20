@@ -172,7 +172,7 @@ cd harbor
 
 #### FASE 9.14 - Harbor : Installatione senza SSL
 
-#### FASE 9.14.1 - COPIA di SICUREZZA:
+> FASE 9.14.1 - fare una copia di sicurezza!
 
 ```bash
 cp harbor.yml.tmpl harbor.yml

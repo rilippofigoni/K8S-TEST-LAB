@@ -42,7 +42,7 @@ EOF
 
 #### TOGLIERE LO SWAP
 
-#### ricordarsi di disabilitare lo swap su tutti i nodi!!!!
+#### ricordarsi di disabilitare poi lo swap su tutti i nodi!!!!
 
 ```bash
 sudo swapoff -a

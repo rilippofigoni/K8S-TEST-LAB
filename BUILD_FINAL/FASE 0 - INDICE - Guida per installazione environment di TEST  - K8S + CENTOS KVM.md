@@ -2,15 +2,15 @@
 
 #### PREMESSA:
 
-Lo scopo di questo documento è quello di descrivere in maniera sintetica e accurata le varie fasi occorrenti - in rigoroso ordine temporale - per la creazione di un **TEST-cluster** Kubernetes all'interno di un ambiente virtuale LINUX-KVM, usando delle VM CentOS 8.
-Seguiranno poi, nei files di esempio sucessivi, le istruzioni per creare altre 2 KVM atte ad ospitare un'installazione di HARBOR Registry ed un altra per lo STACK EFK.
+Lo scopo di questo documento è quello di descrivere in maniera sintetica e accurata le varie fasi occorrenti, *in rigoroso ordine temporale*, al fine di creare di un **TEST-cluster** **Kubernetes**, uno **STACK EFK** e un Private Regiistry **HARBOR**, all'interno di un ambiente virtuale LINUX-KVM, usando 5 VM CentOS 8.
+
 
 
 * #### FASE 1 - Creazione delle VM in ambiente Linux KVM/Cockpit:
 
   > seguire instruzione nel file locale : ** FASE 1 - Creazione delle VM in ambiente KVM-Cockpit.md**
 
- 
+
 * #### FASE 2 - Attività sistemistica sulle VM - Propedeutica all’installazione di K8S
 
   > seguire instruzione nel file locale : ** FASE 2 - Attività sistemistica sulle VM - Propedeutica all’installazione di K8S.md**
@@ -40,7 +40,7 @@ Seguiranno poi, nei files di esempio sucessivi, le istruzioni per creare altre 2
 * #### FASE 8 - INSTALLAZIONE DELLO STACK EFK e CONNESSIONE AL MASTER NODE K8S
 
   > seguire istruzioni nel file locale : EFK-STACK installazione on K8S.md
-    
-* #### FASE 9 - INSTALLAZIONE DI HARBOR - PRIVATE REGISTRY
+  
+* #### FASE 9 - INSTALLAZIONE DI HARBOR - PRIVATE REGISTRY e CONNESSIONE AL MASTER NODE
 
-> seguire istruzioni nel file locale : FASE 9 - Installazione di HARBOR INSTALL on KVM.md
+  > seguire istruzioni nel file locale : FASE 9 - Installazione di HARBOR INSTALL on KVM.md
